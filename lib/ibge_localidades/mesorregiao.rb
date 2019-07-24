@@ -4,7 +4,7 @@ class IbgeLocalidades::Mesorregiao
 
   attr_reader :id, :nome, :estado
 
-  buscar_por_relacionamento "regiao", "estado"
+  buscar_por_relacionamento :regiao, :estado
 
   PATH    = "/mesorregioes/"
 
@@ -12,6 +12,13 @@ class IbgeLocalidades::Mesorregiao
     @id       = params["id"]
     @nome     = params["nome"]
     @estado   = ::IbgeLocalidades::Estado.new(params["UF"])
+  end
+
+  def cidades
+    ::IbgeLocalidades::Cidade.listar_por_mesorregiao(id)
+  end
+  def microrregioes
+    ::IbgeLocalidades::Microrregiao.listar_por_mesorregiao(id)
   end
 
 end

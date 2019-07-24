@@ -3,8 +3,8 @@ module IbgeLocalidades
   require 'net/http'
   require 'json'
 
-  VERSION  = 'v1'
-  MAIN_URL = 'https://servicodados.ibge.gov.br/api/' + VERSION + '/localidades'
+  API_VERSION  = 'v1'
+  MAIN_URL = 'https://servicodados.ibge.gov.br/api/' + API_VERSION + '/localidades'
 
   def get(url)
     uri             = URI(MAIN_URL + url)
@@ -25,8 +25,9 @@ module IbgeLocalidades
 
   def buscar_por_relacionamento *args
     args.each do |relacionamento|
-      define_singleton_method "listar_por_#{relacionamento}" do |id|
-        as_objects get(Module.const_get("IbgeLocalidades::#{relacionamento.capitalize}::PATH") + id + self::PATH)
+      string_relacionamento = relacionamento.to_s
+      define_singleton_method "listar_por_#{string_relacionamento}" do |id|
+        as_objects get(Module.const_get("IbgeLocalidades::#{string_relacionamento.capitalize}::PATH") + id.to_s + self::PATH)
       end
     end
   end
@@ -36,7 +37,7 @@ module IbgeLocalidades
   end
 
   def find_by_id id
-    as_objects get(self::PATH + id)
+    as_objects get(self::PATH + id.to_s)
   end
 end
 

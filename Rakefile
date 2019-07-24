@@ -2,9 +2,8 @@ require 'rake/testtask'
 
 Rake::TestTask.new do |t|
   t.libs << 'test'
-  # test.test_files = FileList['tests/*.rb']
   t.pattern = 'test/*.rb'
-  t.verbose = false # or true
+  t.verbose = false
 end
 
 desc "Run tests"
